@@ -5,8 +5,8 @@ import sys
 
 from flask.cli import FlaskGroup
 
-from src import create_app, db   # new
-from src.api.models import User  # new
+from src import create_app, db
+from src.api.users.models import User
 
 
 app = create_app()  # new
