@@ -7,6 +7,7 @@ import os  # new
 class BaseConfig:
     TESTING = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # new
+    SECRET_KEY = 'my_precious'  # new
 
 
 class DevelopmentConfig(BaseConfig):
