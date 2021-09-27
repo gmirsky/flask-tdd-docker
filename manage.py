@@ -15,8 +15,11 @@ cli = FlaskGroup(create_app=create_app)  # new
 
 @cli.command('seed_db')
 def seed_db():
-    db.session.add(User(username='greg', email="greg@vanapagan.com"))
-    db.session.add(User(username='gregory', email="gregory@septunx.com"))
+    db.session.add(User(username='old_devil', email="old_devil@vanapagan.com"))
+    db.session.add(User(username='seven_twelfths', email="seven_twelfths@septunx.com"))
+    db.session.add(User(username='ima.dummy', email="ima.dummy@fakedomain.com"))
+    db.session.add(User(username='go_away', email="go_away@noreply.com"))
+    db.session.add(User(username='pebcak', email="pebcak@braindeadusers.com"))
     db.session.commit()
 
 

@@ -1,8 +1,8 @@
 # Python Flask-RESTX container
 
-A test based development docker container example with Python, Flask, Postgres and Docker
+Illustration of a test based development docker container example with Python, Flask, SQL-Alchemy, Postgres and Docker-compose.
 
-This sample docker application utilizes Python and Flask along with utilizing pytest, flake8, black, isort, werkzeug and swagger to store data in a separate Postgres database container.
+This sample docker application utilizes Python and Flask along with utilizing pytest, flake8, black, isort, werkzeug, sql-alchemy and swagger to store data in a separate Postgres database container and build the needed Rest API interfaces and support GUIs.
 
 The intent of this example is to illustrate building docker application containers with a testing, linting and formatting framework simulatenously with the application code to insure code quality and to spot errors early in the development process.
 
@@ -105,8 +105,6 @@ local     275064541db7734bcaeda08e58f30249df7ecd43bd69efb7a5e493ef570c87e8
 $
 ```
 
-
-
 ### Check the running containers
 
 ```bash
@@ -161,17 +159,151 @@ $ curl http://localhost:5004/users
 [
     {
         "id": 1,
-        "username": "greg",
-        "email": "greg@vanapagan.com",
-        "created_date": "2021-09-27T19:07:01.238385"
+        "username": "old_devil",
+        "email": "old_devil@vanapagan.com",
+        "created_date": "2021-09-27T19:25:54.391979"
     },
     {
         "id": 2,
-        "username": "gregory",
-        "email": "gregory@septunx.com",
-        "created_date": "2021-09-27T19:07:01.238385"
+        "username": "seven_twelfths",
+        "email": "seven_twelfths@septunx.com",
+        "created_date": "2021-09-27T19:25:54.391979"
+    },
+    {
+        "id": 3,
+        "username": "ima.dummy",
+        "email": "ima.dummy@fakedomain.com",
+        "created_date": "2021-09-27T19:25:54.391979"
+    },
+    {
+        "id": 4,
+        "username": "go_away",
+        "email": "go_away@noreply.com",
+        "created_date": "2021-09-27T19:25:54.391979"
+    },
+    {
+        "id": 5,
+        "username": "pebcak",
+        "email": "pebcak@braindeadusers.com",
+        "created_date": "2021-09-27T19:25:54.391979"
     }
 ]
 $
 ```
 
+## Testing
+
+### Kick off the coded pytest functional and unit tests
+
+All tests can be found in the `/tests` directory and subdirectories.
+
+```
+$ docker-compose exec api python -m pytest "src/tests" -p no:warnings
+================================== test session starts ==================================
+platform linux -- Python 3.9.5, pytest-6.2.4, py-1.10.0, pluggy-0.13.1
+rootdir: /usr/src/app/src/tests, configfile: pytest.ini
+plugins: xdist-2.2.1, cov-2.12.0, forked-1.3.0
+collected 34 items
+
+src/tests/test_admin.py ..                                                        [  5%]
+src/tests/test_users.py ..............                                            [ 47%]
+src/tests/test_users_unit.py ..............                                       [ 88%]
+src/tests/functional/test_ping.py .                                               [ 91%]
+src/tests/unit/test_config.py ...                                                 [100%]
+
+================================== 34 passed in 0.77s ===================================
+$
+```
+
+### Run the tests with code coverage
+
+Code coverage tells you how much of your code is tested by your test scripts and conditions.
+
+```bash
+$ docker-compose exec api python -m pytest "src/tests" -p no:warnings --cov="src"
+================================ test session starts =================================
+platform linux -- Python 3.9.5, pytest-6.2.4, py-1.10.0, pluggy-0.13.1
+rootdir: /usr/src/app/src/tests, configfile: pytest.ini
+plugins: xdist-2.2.1, cov-2.12.0, forked-1.3.0
+collected 34 items
+
+src/tests/test_admin.py ..                                                     [  5%]
+src/tests/test_users.py ..............                                         [ 47%]
+src/tests/test_users_unit.py ..............                                    [ 88%]
+src/tests/functional/test_ping.py .                                            [ 91%]
+src/tests/unit/test_config.py ...                                              [100%]
+
+----------- coverage: platform linux, python 3.9.5-final-0 -----------
+
+Name                        Stmts   Miss Branch BrPart  Cover
+-------------------------------------------------------------
+
+src/__init__.py                21      1      2      0    96%
+src/api/__init__.py             6      0      0      0   100%
+src/api/ping.py                 6      0      0      0   100%
+src/api/users/__init__.py       0      0      0      0   100%
+src/api/users/admin.py          7      0      0      0   100%
+src/api/users/crud.py          22      0      0      0   100%
+src/api/users/models.py        17      0      2      1    95%
+src/api/users/views.py         63      0     10      0   100%
+
+src/config.py                  15      1      2      1    88%
+-------------------------------------------------------------
+
+TOTAL                         157      2     16      2    98%
+
+================================= 34 passed in 1.48s =================================
+$
+```
+
+You can also run the tests with coverage and generate an HTML report of the results
+
+```bash
+$ docker-compose exec api python -m pytest "src/tests" -p no:warnings --cov="src" --cov-report html
+```
+
+## Code health
+
+### Lint the python code to make it standard.
+
+```bash
+$ docker-compose exec api flake8 src
+```
+
+### Python Black and Python Isort
+
+#### Run black and isort with check options
+
+```bash
+$ docker-compose exec api black src --check
+$ docker-compose exec api isort src --check-only
+```
+
+#### Fix formatting and python imports with black and isort
+
+```bash
+$ docker-compose exec api black src
+$ docker-compose exec api isort src
+```
+
+### Swagger
+
+Python Swagger will automatically generate OpenAPI specifications and documentation. Since we are using Flask-RESTX, it is automatically included. All that is needed is to redirect the output to `/doc` which is accomplished by code in `src/api/__init__.py`
+
+api = Api(version="1.0", title="Users API", doc="/doc") redirects the documentation endpoint from `http://localhost:5004/` to `http://localhost:5004/doc`
+
+Open your browser to http://localhost:5004/doc and you should see the following.
+
+![doc1](/Users/gregorymirsky/flask-tdd-docker/doc1.png)
+
+If you click on one of the entries you get even more information. All of it automatically generated.
+
+![doc2](/Users/gregorymirsky/flask-tdd-docker/doc2.png)
+
+Database admin GUI
+
+Additionally, Flask-RESTX allows you to genrate a GUI (that should only be deployed in DEV and/or QA) to aid in debugging. Navigate to http://localhost:5004/admin/user/ 
+
+![admin](/Users/gregorymirsky/flask-tdd-docker/admin.png)
+
+This is a GUI all driven off of the Python Flask-RESTX libraries.

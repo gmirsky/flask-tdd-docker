@@ -111,13 +111,13 @@ def test_all_users(test_app, monkeypatch):
             {
                 "id": 1,
                 "username": "michael",
-                "email": "michael@mherman.org",
+                "email": "michael@totallybroken.com",
                 "created_date": datetime.now(),
             },
             {
                 "id": 1,
-                "username": "fletcher",
-                "email": "fletcher@notreal.com",
+                "username": "kilroy",
+                "email": "kilroy@wuzhere.com",
                 "created_date": datetime.now(),
             },
         ]
@@ -129,9 +129,9 @@ def test_all_users(test_app, monkeypatch):
     assert resp.status_code == 200
     assert len(data) == 2
     assert "michael" in data[0]["username"]
-    assert "michael@mherman.org" in data[0]["email"]
-    assert "fletcher" in data[1]["username"]
-    assert "fletcher@notreal.com" in data[1]["email"]
+    assert "michael@totallybroken.com" in data[0]["email"]
+    assert "kilroy" in data[1]["username"]
+    assert "kilroy@wuzhere.com" in data[1]["email"]
 
 
 def test_remove_user(test_app, monkeypatch):
