@@ -1,6 +1,3 @@
-# src/api/users/admin.py
-
-
 from flask_admin.contrib.sqla import ModelView
 
 

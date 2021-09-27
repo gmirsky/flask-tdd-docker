@@ -1,6 +1,3 @@
-# src/tests/test_ping.py
-
-
 import json
 
 

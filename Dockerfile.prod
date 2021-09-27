@@ -1,6 +1,6 @@
-###########
-# BUILDER #
-###########
+#########
+# BUILD #
+#########
 
 # pull official base image
 FROM python:3.9.5-slim-buster as builder
@@ -30,9 +30,9 @@ RUN black src --check
 RUN isort src --check-only
 
 
-#########
-# FINAL #
-#########
+##########
+# DEPLOY #
+##########
 
 # pull official base image
 FROM python:3.9.5-slim-buster

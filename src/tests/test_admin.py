@@ -1,6 +1,3 @@
-# src/tests/test_admin.py
-
-
 import os
 
 from src import create_app, db

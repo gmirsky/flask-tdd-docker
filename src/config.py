@@ -1,22 +1,19 @@
-# src/config.py
-
-
-import os  # new
+import os
 
 
 class BaseConfig:
     TESTING = False
-    SQLALCHEMY_TRACK_MODIFICATIONS = False  # new
-    SECRET_KEY = "my_precious"  # new
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = "my_secret_key"
 
 
 class DevelopmentConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")  # new
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
 
 class TestingConfig(BaseConfig):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_TEST_URL")  # new
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_TEST_URL")
 
 
 class ProductionConfig(BaseConfig):

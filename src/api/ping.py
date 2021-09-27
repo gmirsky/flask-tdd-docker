@@ -1,10 +1,9 @@
 # src/api/ping.py
 
 
-from flask import Blueprint
-from flask_restx import Api, Namespace, Resource  # updated
+from flask_restx import Namespace, Resource
 
-ping_namespace = Namespace("ping")  # new
+ping_namespace = Namespace("ping")
 
 
 class Ping(Resource):
@@ -12,4 +11,4 @@ class Ping(Resource):
         return {"status": "success", "message": "pong!"}
 
 
-ping_namespace.add_resource(Ping, "")  # updated
+ping_namespace.add_resource(Ping, "")
