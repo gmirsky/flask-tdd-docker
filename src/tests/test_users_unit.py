@@ -21,12 +21,12 @@ def test_add_user(test_app, monkeypatch):
     client = test_app.test_client()
     resp = client.post(
         "/users",
-        data=json.dumps({"username": "michael", "email": "michael@testdriven.io"}),
+        data=json.dumps({"username": "michael", "email": "michael@fakedomain.com"}),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())
     assert resp.status_code == 201
-    assert "michael@testdriven.io was added!" in data["message"]
+    assert "michael@fakedomain.com was added!" in data["message"]
 
 
 def test_add_user_invalid_json(test_app):
@@ -45,7 +45,7 @@ def test_add_user_invalid_json_keys(test_app, monkeypatch):
     client = test_app.test_client()
     resp = client.post(
         "/users",
-        data=json.dumps({"email": "john@testdriven.io"}),
+        data=json.dumps({"email": "john@fakedomain.com"}),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())
@@ -67,7 +67,7 @@ def test_add_user_duplicate_email(test_app, monkeypatch):
     client = test_app.test_client()
     resp = client.post(
         "/users",
-        data=json.dumps({"username": "michael", "email": "michael@testdriven.io"}),
+        data=json.dumps({"username": "michael", "email": "michael@fakedomain.com"}),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())
@@ -80,7 +80,7 @@ def test_single_user(test_app, monkeypatch):
         return {
             "id": 1,
             "username": "jeffrey",
-            "email": "jeffrey@testdriven.io",
+            "email": "jeffrey@fakedomain.com",
             "created_date": datetime.now(),
         }
 
@@ -90,7 +90,7 @@ def test_single_user(test_app, monkeypatch):
     data = json.loads(resp.data.decode())
     assert resp.status_code == 200
     assert "jeffrey" in data["username"]
-    assert "jeffrey@testdriven.io" in data["email"]
+    assert "jeffrey@fakedomain.com" in data["email"]
 
 
 def test_single_user_incorrect_id(test_app, monkeypatch):
@@ -146,7 +146,7 @@ def test_remove_user(test_app, monkeypatch):
             {
                 "id": 1,
                 "username": "user-to-be-removed",
-                "email": "remove-me@testdriven.io",
+                "email": "remove-me@fakedomain.com",
             }
         )
         return d
@@ -160,7 +160,7 @@ def test_remove_user(test_app, monkeypatch):
     resp_two = client.delete("/users/1")
     data = json.loads(resp_two.data.decode())
     assert resp_two.status_code == 200
-    assert "remove-me@testdriven.io was removed!" in data["message"]
+    assert "remove-me@fakedomain.com was removed!" in data["message"]
 
 
 def test_remove_user_incorrect_id(test_app, monkeypatch):
@@ -183,7 +183,7 @@ def test_update_user(test_app, monkeypatch):
 
     def mock_get_user_by_id(user_id):
         d = AttrDict()
-        d.update({"id": 1, "username": "me", "email": "me@testdriven.io"})
+        d.update({"id": 1, "username": "me", "email": "me@fakedomain.com"})
         return d
 
     def mock_update_user(user, username, email):
@@ -200,7 +200,7 @@ def test_update_user(test_app, monkeypatch):
     client = test_app.test_client()
     resp_one = client.put(
         "/users/1",
-        data=json.dumps({"username": "me", "email": "me@testdriven.io"}),
+        data=json.dumps({"username": "me", "email": "me@fakedomain.com"}),
         content_type="application/json",
     )
     data = json.loads(resp_one.data.decode())
@@ -210,17 +210,17 @@ def test_update_user(test_app, monkeypatch):
     data = json.loads(resp_two.data.decode())
     assert resp_two.status_code == 200
     assert "me" in data["username"]
-    assert "me@testdriven.io" in data["email"]
+    assert "me@fakedomain.com" in data["email"]
 
 
 @pytest.mark.parametrize(
     "user_id, payload, status_code, message",
     [
         [1, {}, 400, "Input payload validation failed"],
-        [1, {"email": "me@testdriven.io"}, 400, "Input payload validation failed"],
+        [1, {"email": "me@fakedomain.com"}, 400, "Input payload validation failed"],
         [
             999,
-            {"username": "me", "email": "me@testdriven.io"},
+            {"username": "me", "email": "me@fakedomain.com"},
             404,
             "User 999 does not exist",
         ],
@@ -252,7 +252,7 @@ def test_update_user_duplicate_email(test_app, monkeypatch):
 
     def mock_get_user_by_id(user_id):
         d = AttrDict()
-        d.update({"id": 1, "username": "me", "email": "me@testdriven.io"})
+        d.update({"id": 1, "username": "me", "email": "me@fakedomain.com"})
         return d
 
     def mock_update_user(user, username, email):
@@ -269,7 +269,7 @@ def test_update_user_duplicate_email(test_app, monkeypatch):
     client = test_app.test_client()
     resp = client.put(
         "/users/1",
-        data=json.dumps({"username": "me", "email": "me@testdriven.io"}),
+        data=json.dumps({"username": "me", "email": "me@fakedomain.com"}),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())

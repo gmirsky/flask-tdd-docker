@@ -96,6 +96,17 @@ a5673b5d4434   bridge                     bridge    local
 be2a79923637   none                       null      local
 ```
 
+Check the docker volumes
+
+```bash
+$ docker volume ls
+DRIVER    VOLUME NAME
+local     275064541db7734bcaeda08e58f30249df7ecd43bd69efb7a5e493ef570c87e8
+$
+```
+
+
+
 ### Check the running containers
 
 ```bash
@@ -145,5 +156,22 @@ $ docker-compose exec api python manage.py seed_db
 
 ### Check again to see if we can access any user data in the database
 
+```bash
 $ curl http://localhost:5004/users
+[
+    {
+        "id": 1,
+        "username": "greg",
+        "email": "greg@vanapagan.com",
+        "created_date": "2021-09-27T19:07:01.238385"
+    },
+    {
+        "id": 2,
+        "username": "gregory",
+        "email": "gregory@septunx.com",
+        "created_date": "2021-09-27T19:07:01.238385"
+    }
+]
+$
+```
 

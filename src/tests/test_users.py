@@ -12,12 +12,12 @@ def test_add_user(test_app, test_database):
     client = test_app.test_client()
     resp = client.post(
         "/users",
-        data=json.dumps({"username": "michael", "email": "michael@testdriven.io"}),
+        data=json.dumps({"username": "michael", "email": "michael@fakedomain.com"}),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())
     assert resp.status_code == 201
-    assert "michael@testdriven.io was added!" in data["message"]
+    assert "michael@fakedomain.com was added!" in data["message"]
 
 
 def test_add_user_invalid_json(test_app, test_database):
@@ -36,7 +36,7 @@ def test_add_user_invalid_json_keys(test_app, test_database):
     client = test_app.test_client()
     resp = client.post(
         "/users",
-        data=json.dumps({"email": "john@testdriven.io"}),
+        data=json.dumps({"email": "john@fakedomain.com"}),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())
@@ -48,12 +48,12 @@ def test_add_user_duplicate_email(test_app, test_database):
     client = test_app.test_client()
     client.post(
         "/users",
-        data=json.dumps({"username": "michael", "email": "michael@testdriven.io"}),
+        data=json.dumps({"username": "michael", "email": "michael@fakedomain.com"}),
         content_type="application/json",
     )
     resp = client.post(
         "/users",
-        data=json.dumps({"username": "michael", "email": "michael@testdriven.io"}),
+        data=json.dumps({"username": "michael", "email": "michael@fakedomain.com"}),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())
@@ -62,13 +62,13 @@ def test_add_user_duplicate_email(test_app, test_database):
 
 
 def test_single_user(test_app, test_database, add_user):
-    user = add_user("jeffrey", "jeffrey@testdriven.io")
+    user = add_user("jeffrey", "jeffrey@fakedomain.com")
     client = test_app.test_client()
     resp = client.get(f"/users/{user.id}")
     data = json.loads(resp.data.decode())
     assert resp.status_code == 200
     assert "jeffrey" in data["username"]
-    assert "jeffrey@testdriven.io" in data["email"]
+    assert "jeffrey@fakedomain.com" in data["email"]
 
 
 def test_single_user_incorrect_id(test_app, test_database):
@@ -96,7 +96,7 @@ def test_all_users(test_app, test_database, add_user):
 
 def test_remove_user(test_app, test_database, add_user):
     test_database.session.query(User).delete()
-    user = add_user("user-to-be-removed", "remove-me@testdriven.io")
+    user = add_user("user-to-be-removed", "remove-me@fakedomain.com")
     client = test_app.test_client()
     resp_one = client.get("/users")
     data = json.loads(resp_one.data.decode())
@@ -106,7 +106,7 @@ def test_remove_user(test_app, test_database, add_user):
     resp_two = client.delete(f"/users/{user.id}")
     data = json.loads(resp_two.data.decode())
     assert resp_two.status_code == 200
-    assert "remove-me@testdriven.io was removed!" in data["message"]
+    assert "remove-me@fakedomain.com was removed!" in data["message"]
 
     resp_three = client.get("/users")
     data = json.loads(resp_three.data.decode())
@@ -123,11 +123,11 @@ def test_remove_user_incorrect_id(test_app, test_database):
 
 
 def test_update_user(test_app, test_database, add_user):
-    user = add_user("user-to-be-updated", "update-me@testdriven.io")
+    user = add_user("user-to-be-updated", "update-me@fakedomain.com")
     client = test_app.test_client()
     resp_one = client.put(
         f"/users/{user.id}",
-        data=json.dumps({"username": "me", "email": "me@testdriven.io"}),
+        data=json.dumps({"username": "me", "email": "me@fakedomain.com"}),
         content_type="application/json",
     )
     data = json.loads(resp_one.data.decode())
@@ -138,17 +138,17 @@ def test_update_user(test_app, test_database, add_user):
     data = json.loads(resp_two.data.decode())
     assert resp_two.status_code == 200
     assert "me" in data["username"]
-    assert "me@testdriven.io" in data["email"]
+    assert "me@fakedomain.com" in data["email"]
 
 
 @pytest.mark.parametrize(
     "user_id, payload, status_code, message",
     [
         [1, {}, 400, "Input payload validation failed"],
-        [1, {"email": "me@testdriven.io"}, 400, "Input payload validation failed"],
+        [1, {"email": "me@fakedomain.com"}, 400, "Input payload validation failed"],
         [
             999,
-            {"username": "me", "email": "me@testdriven.io"},
+            {"username": "me", "email": "me@fakedomain.com"},
             404,
             "User 999 does not exist",
         ],
