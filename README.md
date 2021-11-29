@@ -2,7 +2,7 @@
 
 Illustration of a test based development docker container example with Python, Flask, SQL-Alchemy, Postgres and Docker-compose.
 
-This sample docker application utilizes Python and Flask along with utilizing pytest, flake8, black, isort, werkzeug, sql-alchemy and swagger to store data in a separate Postgres database container and build the needed Rest API interfaces and support GUIs.
+This sample docker application utilizes python and flask along with utilizing pytest, flake8, black, isort, werkzeug, sql-alchemy and swagger to store data in a separate Postgres database container and build the needed Rest API interfaces and support GUIs.
 
 The intent of this example is to illustrate building docker application containers with a testing, linting and formatting framework simulatenously with the application code to insure code quality and to spot errors early in the development process.
 
@@ -18,7 +18,7 @@ This RESTful API will follow RESTful design principles using basic HTTP verbs: G
 
 ## Pre-requisites
 
-- Python 3.9
+- Python 3.9 or later
 - Docker 20.x or later
 - Docker-compose 1.29.x or later
 
@@ -28,7 +28,7 @@ Check your Python version:
 
 ```bash
 $ python3 --version
-Python 3.9.7
+Python 3.9.9
 ```
 
 Check your docker and docker-compose versions:
@@ -292,7 +292,7 @@ Python Swagger will automatically generate OpenAPI specifications and documentat
 
 api = Api(version="1.0", title="Users API", doc="/doc") redirects the documentation endpoint from `http://localhost:5004/` to `http://localhost:5004/doc`
 
-Open your browser to http://localhost:5004/doc and you should see the following.
+Open your browser to `http://localhost:5004/doc` and you should see the following.
 
 ![doc1](./doc1.png)
 
@@ -302,7 +302,7 @@ If you click on one of the entries you get even more information. All of it auto
 
 Database admin GUI
 
-Additionally, Flask-RESTX allows you to genrate a GUI (that should only be deployed in DEV and/or QA) to aid in debugging. Navigate to http://localhost:5004/admin/user/ 
+Additionally, Flask-RESTX allows you to genrate a GUI (that should only be deployed in DEV and/or QA) to aid in debugging. Navigate to `http://localhost:5004/admin/user/`
 
 ![admin](./admin.png)
 
