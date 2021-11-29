@@ -294,16 +294,16 @@ api = Api(version="1.0", title="Users API", doc="/doc") redirects the documentat
 
 Open your browser to http://localhost:5004/doc and you should see the following.
 
-![doc1](/Users/gregorymirsky/flask-tdd-docker/doc1.png)
+![doc1](./doc1.png)
 
 If you click on one of the entries you get even more information. All of it automatically generated.
 
-![doc2](/Users/gregorymirsky/flask-tdd-docker/doc2.png)
+![doc2](./doc2.png)
 
 Database admin GUI
 
 Additionally, Flask-RESTX allows you to genrate a GUI (that should only be deployed in DEV and/or QA) to aid in debugging. Navigate to http://localhost:5004/admin/user/ 
 
-![admin](/Users/gregorymirsky/flask-tdd-docker/admin.png)
+![admin](./admin.png)
 
 This is a GUI all driven off of the Python Flask-RESTX libraries.
